@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -28,6 +31,31 @@ public class ForecastFragment extends Fragment {
     private ArrayAdapter<String> mForecastAdapter;
     private static final String OPEN_WEATHER_MAP_API_KEY = "0e9aca40eb7e5c0718cfaff0bc3e9756";
     public ForecastFragment() {
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+
+    }
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater menuInflater)
+    {
+        super.onCreateOptionsMenu(menu,menuInflater);
+        menuInflater.inflate(R.menu.forecastfragment,menu);
+
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem)
+    {
+        int id = menuItem.getItemId();
+        if(id == R.id.action_refresh)
+            return true;
+
+        return super.onOptionsItemSelected(menuItem);
+
     }
 
     @Override
@@ -67,6 +95,7 @@ public class ForecastFragment extends Fragment {
         return rootView;
 
     }
+
 
     public class FetchWeatherTask extends AsyncTask<Void,Void,Void>
     {
