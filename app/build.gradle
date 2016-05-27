@@ -18,7 +18,7 @@ android {
         }
     }
     buildTypes.each {
-        it.buildConfigField 'String', 'OPEN_WEATHER_MAP_API_KEY','"0e9aca40eb7e5c0718cfaff0bc3e9756"'
+        it.buildConfigField 'String', 'OPEN_WEATHER_MAP_API_KEY', '"0e9aca40eb7e5c0718cfaff0bc3e9756"'
     }
 }
 
