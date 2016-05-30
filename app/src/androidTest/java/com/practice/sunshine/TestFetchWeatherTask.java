@@ -1,12 +1,27 @@
-
+/*
+ * Copyright (C) 2014 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.practice.sunshine;
 
 import android.annotation.TargetApi;
 import android.database.Cursor;
 import android.test.AndroidTestCase;
-import android.util.Log;
 
 import com.practice.sunshine.data.WeatherContract;
+
+
 
 public class TestFetchWeatherTask extends AndroidTestCase{
     static final String ADD_LOCATION_SETTING = "Sunnydale, CA";
@@ -20,11 +35,7 @@ public class TestFetchWeatherTask extends AndroidTestCase{
         content provider.
      */
     @TargetApi(11)
-    public void testAddLocation()
-    {
-
-       // getContext().getContentResolver().delete(WeatherContract.LocationEntry.CONTENT_URI,null,null);
-
+    public void testAddLocation() {
         // start from a clean state
         getContext().getContentResolver().delete(WeatherContract.LocationEntry.CONTENT_URI,
                 WeatherContract.LocationEntry.COLUMN_LOCATION_SETTING + " = ?",
@@ -33,8 +44,6 @@ public class TestFetchWeatherTask extends AndroidTestCase{
         FetchWeatherTask fwt = new FetchWeatherTask(getContext());
         long locationId = fwt.addLocation(ADD_LOCATION_SETTING, ADD_LOCATION_CITY,
                 ADD_LOCATION_LAT, ADD_LOCATION_LON);
-
-        Log.e("Location Id found to be", Long.toString(locationId));
 
         // does addLocation return a valid record ID?
         assertFalse("Error: addLocation returned an invalid ID on insert",
@@ -58,14 +67,9 @@ public class TestFetchWeatherTask extends AndroidTestCase{
                     null);
 
             // these match the indices of the projection
-            if (locationCursor.moveToFirst())
-            {
-                Log.e("Coulumn Name" , locationCursor.getColumnName(0) + " " + Long.toString(locationCursor.getLong(0)));
-                //locationCursor.moveToNext();
-              //  Log.e("Coulumn Name" , locationCursor.getColumnName(0) + " " + Long.toString(locationCursor.getLong(0)));
-
+            if (locationCursor.moveToFirst()) {
                 assertEquals("Error: the queried value of locationId does not match the returned value" +
-                        "from addLocation", locationCursor.getLong(0) , locationId);
+                        "from addLocation", locationCursor.getLong(0), locationId);
                 assertEquals("Error: the queried value of location setting is incorrect",
                         locationCursor.getString(1), ADD_LOCATION_SETTING);
                 assertEquals("Error: the queried value of location city is incorrect",
@@ -87,7 +91,7 @@ public class TestFetchWeatherTask extends AndroidTestCase{
                     ADD_LOCATION_LAT, ADD_LOCATION_LON);
 
             assertEquals("Error: inserting a location again should return the same ID",
-                    locationId , newLocationId);
+                    locationId, newLocationId);
         }
         // reset our state back to normal
         getContext().getContentResolver().delete(WeatherContract.LocationEntry.CONTENT_URI,

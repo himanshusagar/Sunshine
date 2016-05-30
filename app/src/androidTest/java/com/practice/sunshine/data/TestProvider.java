@@ -240,7 +240,6 @@ public class TestProvider extends AndroidTestCase {
 
         Uri locationUri = mContext.getContentResolver().
                 insert(LocationEntry.CONTENT_URI, values);
-
         long locationRowId = ContentUris.parseId(locationUri);
 
         // Verify we got a row back.
@@ -251,12 +250,6 @@ public class TestProvider extends AndroidTestCase {
         updatedValues.put(LocationEntry._ID, locationRowId);
         updatedValues.put(LocationEntry.COLUMN_CITY_NAME, "Santa's Village");
 
-
-        Log.e("Updated Val city name" , updatedValues.getAsString(LocationEntry.COLUMN_CITY_NAME));
-
-        Log.e("Updated Values ID" , updatedValues.getAsString(LocationEntry._ID));
-
-
         // Create a cursor with observer to make sure that the content provider is notifying
         // the observers as expected
         Cursor locationCursor = mContext.getContentResolver().query(LocationEntry.CONTENT_URI, null, null, null, null);
@@ -265,10 +258,8 @@ public class TestProvider extends AndroidTestCase {
         locationCursor.registerContentObserver(tco);
 
         int count = mContext.getContentResolver().update(
-                LocationEntry.CONTENT_URI, updatedValues, LocationEntry._ID + " = ? ",
+                LocationEntry.CONTENT_URI, updatedValues, LocationEntry._ID + "= ?",
                 new String[] { Long.toString(locationRowId)});
-
-        Log.e("Count Value", new String(String.valueOf(new Integer(count))));
         assertEquals(count, 1);
 
         // Test to make sure our observer is called.  If not, we throw an assertion.
